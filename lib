@@ -2952,7 +2952,7 @@ function Library:CreateWindow(...)
     local isMobile = InputService.TouchEnabled or InputService.GamepadEnabled
     if typeof(Config.Size) ~= 'UDim2' then
         if isMobile then
-            Config.Size = UDim2.fromOffset(400, 500)
+            Config.Size = UDim2.fromOffset(535, 585)
         else
             Config.Size = UDim2.fromOffset(535, 585)
         end
