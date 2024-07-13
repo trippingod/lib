@@ -55,7 +55,7 @@ table.insert(Library.Signals, RenderStepped:Connect(function(Delta)
     if RainbowStep >= (1 / 60) then
         RainbowStep = 0
 
-        Hue = Hue + (1 / 400);
+        Hue = Hue + (1 / 200);
 
         if Hue > 1 then
             Hue = 0;
@@ -3047,7 +3047,7 @@ function Library:CreateWindow(...)
         ZIndex = 2;
         Parent = MainSectionInner;
     });
-    
+    TabContainer.Size = UDim2.new(0.9, 0, 0.9, 0);
 
     Library:AddToRegistry(TabContainer, {
         BackgroundColor3 = 'MainColor';
