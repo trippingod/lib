@@ -2954,7 +2954,7 @@ function Library:CreateWindow(...)
         if isMobile then
             Config.Size = UDim2.fromOffset(400, 500)
         else
-            Config.Size = UDim2.fromOffset(550, 600)
+            Config.Size = UDim2.fromOffset(400, 500)
         end
     end
 
