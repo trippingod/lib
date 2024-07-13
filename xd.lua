@@ -3043,7 +3043,7 @@ function Library:CreateWindow(...)
         BackgroundColor3 = Library.MainColor;
         BorderColor3 = Library.OutlineColor;
         Position = UDim2.new(0, 8, 0, 30);
-        Size = UDim2.new(1, -16, 1, -38);
+        Size = UDim2.new(0.9, 0, 0.9, 0);
         ZIndex = 2;
         Parent = MainSectionInner;
     });
