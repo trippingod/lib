@@ -875,7 +875,7 @@ end
 function RayfieldLibrary:CreateWindow(Settings)
 	local Passthrough = false
 	Topbar.Title.Text = Settings.Name
-	Main.Size = UDim2.new(0, 350, 0, 160)
+	Main.Size = UDim2.new(0, 100, 0, 100)
 	Main.Visible = true
 	Main.BackgroundTransparency = 1
 	LoadingFrame.Title.TextTransparency = 1
@@ -1171,7 +1171,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 		TabButton.Title.Text = Name
 		TabButton.Parent = TabList
 		TabButton.Title.TextWrapped = false
-		TabButton.Size = UDim2.new(0, TabButton.Title.TextBounds.X + 30, 0, 30)
+		TabButton.Size = UDim2.new(0, TabButton.Title.TextBounds.X + 10, 0, 10)
 
 		if Image then
 			TabButton.Title.AnchorPoint = Vector2.new(0, 0.5)
