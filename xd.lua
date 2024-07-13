@@ -3666,9 +3666,5 @@ ResizeElement(RightSide, widthPercentage, heightPercentage)
 
 -- Continuar ajustando el tamaño de otros elementos según sea necesario
 
--- Al final del archivo de la librería, asegúrate de devolver la librería modificada
-getgenv().Library = Library
-return Library
-
 getgenv().Library = Library
 return Library
