@@ -81,13 +81,14 @@ local ThemeManager = {} do
         local InputService = game:GetService('UserInputService')
         local isMobile = InputService.TouchEnabled or InputService.GamepadEnabled
     
-        groupbox:AddLabel('Background color'):AddColorPicker('BackgroundColor', { Default = self.Library.BackgroundColor });
-        groupbox:AddLabel('Main color')    :AddColorPicker('MainColor', { Default = self.Library.MainColor });
-        groupbox:AddLabel('Accent color'):AddColorPicker('AccentColor', { Default = self.Library.AccentColor });
-        groupbox:AddLabel('Outline color'):AddColorPicker('OutlineColor', { Default = self.Library.OutlineColor });
-        groupbox:AddLabel('Font color')    :AddColorPicker('FontColor', { Default = self.Library.FontColor });
-
+        -- Verificar si el dispositivo es móvil
         if not isMobile then
+            groupbox:AddLabel('Background color'):AddColorPicker('BackgroundColor', { Default = self.Library.BackgroundColor });
+            groupbox:AddLabel('Main color')    :AddColorPicker('MainColor', { Default = self.Library.MainColor });
+            groupbox:AddLabel('Accent color'):AddColorPicker('AccentColor', { Default = self.Library.AccentColor });
+            groupbox:AddLabel('Outline color'):AddColorPicker('OutlineColor', { Default = self.Library.OutlineColor });
+            groupbox:AddLabel('Font color')    :AddColorPicker('FontColor', { Default = self.Library.FontColor });
+    
             local ThemesArray = {}
             for Name, Theme in next, self.BuiltInThemes do
                 table.insert(ThemesArray, Name)
@@ -96,40 +97,40 @@ local ThemeManager = {} do
             table.sort(ThemesArray, function(a, b) return self.BuiltInThemes[a][1] < self.BuiltInThemes[b][1] end)
     
             groupbox:AddDivider()
-            groupbox:AddDropdown('ThemeManager_ThemeList', { Text = 'Theme list', Values = ThemesArray, Default = 1 })
+            local themeListDropdown = groupbox:AddDropdown('ThemeManager_ThemeList', { Text = 'Theme list', Values = ThemesArray, Default = 1 })
     
             groupbox:AddButton('Set as default', function()
-                self:SaveDefault(Options.ThemeManager_ThemeList.Value)
-                self.Library:Notify(string.format('Set default theme to %q', Options.ThemeManager_ThemeList.Value))
+                self:SaveDefault(themeListDropdown.Value)
+                self.Library:Notify(string.format('Set default theme to %q', themeListDropdown.Value))
             end)
     
-            Options.ThemeManager_ThemeList:OnChanged(function()
-                self:ApplyTheme(Options.ThemeManager_ThemeList.Value)
+            themeListDropdown:OnChanged(function()
+                self:ApplyTheme(themeListDropdown.Value)
             end)
     
             groupbox:AddDivider()
-            groupbox:AddInput('ThemeManager_CustomThemeName', { Text = 'Custom theme name' })
-            groupbox:AddDropdown('ThemeManager_CustomThemeList', { Text = 'Custom themes', Values = self:ReloadCustomThemes(), AllowNull = true, Default = 1 })
+            local customThemeNameInput = groupbox:AddInput('ThemeManager_CustomThemeName', { Text = 'Custom theme name' })
+            local customThemeDropdown = groupbox:AddDropdown('ThemeManager_CustomThemeList', { Text = 'Custom themes', Values = self:ReloadCustomThemes(), AllowNull = true, Default = 1 })
             groupbox:AddDivider()
     
             groupbox:AddButton('Save theme', function() 
-                self:SaveCustomTheme(Options.ThemeManager_CustomThemeName.Value)
+                self:SaveCustomTheme(customThemeNameInput.Value)
     
-                Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
-                Options.ThemeManager_CustomThemeList:SetValue(nil)
+                customThemeDropdown:SetValues(self:ReloadCustomThemes())
+                customThemeDropdown:SetValue(nil)
             end):AddButton('Load theme', function() 
-                self:ApplyTheme(Options.ThemeManager_CustomThemeList.Value) 
+                self:ApplyTheme(customThemeDropdown.Value) 
             end)
     
             groupbox:AddButton('Refresh list', function()
-                Options.ThemeManager_CustomThemeList:SetValues(self:ReloadCustomThemes())
-                Options.ThemeManager_CustomThemeList:SetValue(nil)
+                customThemeDropdown:SetValues(self:ReloadCustomThemes())
+                customThemeDropdown:SetValue(nil)
             end)
     
             groupbox:AddButton('Set as default', function()
-                if Options.ThemeManager_CustomThemeList.Value ~= nil and Options.ThemeManager_CustomThemeList.Value ~= '' then
-                    self:SaveDefault(Options.ThemeManager_CustomThemeList.Value)
-                    self.Library:Notify(string.format('Set default theme to %q', Options.ThemeManager_CustomThemeList.Value))
+                if customThemeDropdown.Value ~= nil and customThemeDropdown.Value ~= '' then
+                    self:SaveDefault(customThemeDropdown.Value)
+                    self.Library:Notify(string.format('Set default theme to %q', customThemeDropdown.Value))
                 end
             end)
     
@@ -146,6 +147,7 @@ local ThemeManager = {} do
             Options.FontColor:OnChanged(UpdateTheme)
         end
     end
+    
 
 	function ThemeManager:GetCustomTheme(file)
 		local path = self.Folder .. '/themes/' .. file
