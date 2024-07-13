@@ -55,7 +55,7 @@ table.insert(Library.Signals, RenderStepped:Connect(function(Delta)
     if RainbowStep >= (1 / 60) then
         RainbowStep = 0
 
-        Hue = Hue + (1 / 400);
+        Hue = Hue + (1 / 200);
 
         if Hue > 1 then
             Hue = 0;
@@ -707,7 +707,7 @@ do
             end
 
             local function updateMenuSize()
-                local menuWidth = 60
+                local menuWidth = 20
                 for i, label in next, ContextMenu.Inner:GetChildren() do
                     if label:IsA('TextLabel') then
                         menuWidth = math.max(menuWidth, label.TextBounds.X)
@@ -3047,7 +3047,6 @@ function Library:CreateWindow(...)
         ZIndex = 2;
         Parent = MainSectionInner;
     });
-    
 
     Library:AddToRegistry(TabContainer, {
         BackgroundColor3 = 'MainColor';
@@ -3631,6 +3630,45 @@ end;
 
 Players.PlayerAdded:Connect(OnPlayerChange);
 Players.PlayerRemoving:Connect(OnPlayerChange);
+
+
+-- Obtener el tamaño de la pantalla actual
+local screenWidth = workspace.CurrentCamera.ViewportSize.X
+local screenHeight = workspace.CurrentCamera.ViewportSize.Y
+
+-- Definir los porcentajes de tamaño para móvil y PC
+local mobileWidthPercentage = 0.8 -- 80% del ancho de la pantalla para móvil
+local mobileHeightPercentage = 0.7 -- 70% de la altura de la pantalla para móvil
+local pcWidthPercentage = 1 -- Tamaño completo del ancho para PC
+local pcHeightPercentage = 1 -- Tamaño completo de la altura para PC
+
+-- Determinar si estamos en un dispositivo móvil
+local isMobile = (screenWidth <= 768) -- Por ejemplo, consideramos móvil si el ancho es menor o igual a 768 píxeles
+
+-- Definir las dimensiones UDim2 para todos los elementos relevantes del menú
+local widthPercentage = isMobile and mobileWidthPercentage or pcWidthPercentage
+local heightPercentage = isMobile and mobileHeightPercentage or pcHeightPercentage
+
+-- Función para ajustar el tamaño de un elemento
+local function ResizeElement(element, widthPercentage, heightPercentage)
+    element.Size = UDim2.new(widthPercentage, 0, heightPercentage, 0)
+end
+
+-- Ajustar el tamaño de todos los elementos del menú aquí
+
+-- Ejemplo: Ajustar el tamaño del TabContainer
+ResizeElement(TabContainer, widthPercentage, heightPercentage)
+
+-- Ejemplo: Ajustar el tamaño de otros elementos como TabFrame, LeftSide, RightSide, etc.
+ResizeElement(TabFrame, widthPercentage, heightPercentage)
+ResizeElement(LeftSide, widthPercentage, heightPercentage)
+ResizeElement(RightSide, widthPercentage, heightPercentage)
+
+-- Continuar ajustando el tamaño de otros elementos según sea necesario
+
+-- Al final del archivo de la librería, asegúrate de devolver la librería modificada
+getgenv().Library = Library
+return Library
 
 getgenv().Library = Library
 return Library
