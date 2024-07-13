@@ -707,7 +707,7 @@ do
             end
 
             local function updateMenuSize()
-                local menuWidth = 60
+                local menuWidth = 20
                 for i, label in next, ContextMenu.Inner:GetChildren() do
                     if label:IsA('TextLabel') then
                         menuWidth = math.max(menuWidth, label.TextBounds.X)
